@@ -16,6 +16,7 @@ public:
 		Returns the first enemy index that was hit
 	*/
 	int isAnyEnemyHit(sf::Vector2f position) const;
+	int getNumberActiveEnemies() const;
 
 	void spawnEnemy();
 
@@ -31,5 +32,11 @@ public:
 private:
 	std::vector<BaseEnemy*> enemyTypes;
 	std::vector<BaseEnemy*> enemies;
+
+	sf::Vector2u* screenDimension;
+
+	int numberEnemies;
+
+	void spawnSimpleEnemy();
 };
 

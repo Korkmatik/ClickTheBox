@@ -25,10 +25,18 @@ private:
 
 	// Game logic attributes
 	bool isGameOver;
+	bool doLevelIncrease;
+	int maxEnemyCount;
+	sf::Time spawnInterval;
+	sf::Time timeSinceLastSpawn;
+	sf::Clock deltaClock;
+	sf::Clock gameClock;
+	sf::Time timeToLevelUp;
 
 	void update();
 	void handlePollEvents();
 	void updateGameObjects();
+	void spawnEnemy();
 
 	void render();
 	void renderGameObjects();

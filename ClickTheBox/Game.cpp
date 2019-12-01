@@ -4,6 +4,8 @@
 
 Game::Game()
 {
+	srand(static_cast<unsigned>(time(NULL)));
+
 	window = new sf::RenderWindow(
 		sf::VideoMode(800, 600), 
 		"Click the Box", 
@@ -14,6 +16,11 @@ Game::Game()
 	sfEvent = new sf::Event();
 
 	isGameOver = false;
+	maxEnemyCount = 10;
+	spawnInterval = sf::milliseconds(1500);
+	timeSinceLastSpawn = spawnInterval;
+	timeToLevelUp = sf::milliseconds(2000);
+	doLevelIncrease = true;
 
 	enemyHandler = new EnemyHandler(window->getSize());
 }
@@ -26,6 +33,8 @@ Game::~Game()
 
 void Game::start()
 {
+	gameClock.restart();
+
 	while (!isGameOver)
 	{
 		update();
@@ -45,6 +54,30 @@ void Game::update()
 			std::cout << "Click in enemy\n";
 		}
 	}
+
+	// Spawning Enemies
+	if (timeSinceLastSpawn >= spawnInterval) {
+		spawnEnemy();
+		timeSinceLastSpawn = sf::milliseconds(0);
+	}
+	else {
+		timeSinceLastSpawn += sf::milliseconds(deltaClock.restart().asMilliseconds());
+	}
+
+	
+	if (doLevelIncrease) {
+		// Increasing level
+		if (static_cast<int>(gameClock.getElapsedTime().asMilliseconds()) >= static_cast<int>(timeToLevelUp.asMilliseconds())) {
+			int newMillis = static_cast<int>(spawnInterval.asMilliseconds()) - 100;
+			spawnInterval = sf::milliseconds(newMillis);
+			maxEnemyCount += 1;
+		}
+
+		if (static_cast<int>(spawnInterval.asMilliseconds()) <= 300) {
+			doLevelIncrease = false;
+		}
+	}
+	
 }
 
 void Game::handlePollEvents()
@@ -61,6 +94,13 @@ void Game::handlePollEvents()
 void Game::updateGameObjects()
 {
 	enemyHandler->updateEnemies();
+}
+
+void Game::spawnEnemy()
+{
+	if (enemyHandler->getNumberActiveEnemies() < maxEnemyCount) {
+		enemyHandler->spawnEnemy();
+	}
 }
 
 void Game::render()
