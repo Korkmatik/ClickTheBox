@@ -1,54 +1,40 @@
 #include "BaseEnemy.hpp"
 
 
-BaseEnemy::BaseEnemy(sf::RectangleShape* shape, int points, float velocity, sf::Vector2f* screenDimensions)
+BaseEnemy::BaseEnemy(int points, sf::Vector2f screenDimensions)
 {
-	this->position = generateRandomPosition(screenDimensions->x);
-
-	this->screenDimensions = screenDimensions;
 	this->points = points;
-	this->velocityY = velocity;
-	this->shape = shape;
+
+	this->screenDimensions = new sf::Vector2f(screenDimensions);
 }
 
 BaseEnemy::~BaseEnemy()
 {
-	delete position;
+	delete screenDimensions;
 }
 
-void BaseEnemy::render(sf::RenderTarget* target) const
-{
-	target->draw(*shape);
-}
-
-void BaseEnemy::update()
-{
-	move();
-}
-
-bool BaseEnemy::isOutOfScreen() const
+bool BaseEnemy::isOutOfScreen(sf::Vector2f& shapePosition) const
 {
 	bool isOutOfScreen = false;
-	const sf::Vector2f currentPosition = shape->getPosition();
 
-	if (currentPosition.x > screenDimensions->x ||
-		currentPosition.y > screenDimensions->y) {
+	if (shapePosition.x > screenDimensions->x ||
+		shapePosition.y > screenDimensions->y) {
 		isOutOfScreen = true;
 	}
 
 	return isOutOfScreen;
 }
 
+int BaseEnemy::getPoints() const
+{
+	return points;
+}
+
 sf::Vector2f* BaseEnemy::generateRandomPosition(int screenWidth)
 {
 	sf::Vector2f* randomPos = new sf::Vector2f();
-	randomPos->x = rand() % (screenWidth);
+	randomPos->x = int(rand() % (screenWidth));
 	randomPos->y = 0.f;
 
 	return randomPos;
-}
-
-void BaseEnemy::move()
-{
-	shape->move(0.f, velocityY);
 }

@@ -5,25 +5,23 @@
 class BaseEnemy
 {
 public:
-	BaseEnemy(sf::RectangleShape* shape, int points, float velocityY, sf::Vector2f* screenDimensions);
+	BaseEnemy(int points, sf::Vector2f screenDimensions);
 	virtual ~BaseEnemy();
 
-	virtual void render(sf::RenderTarget* target) const;
-	virtual void update();
+	virtual void render(sf::RenderTarget* target) const = 0;
+	virtual void update() = 0;
 
-	virtual bool isOutOfScreen() const;
+	virtual bool isOutOfScreen() const = 0;
+	virtual int getPoints() const;
 
 	static sf::Vector2f* generateRandomPosition(int screenWidth);
-private:
-	float velocityY;
-	sf::Vector2f* position;
 
-	sf::RectangleShape* shape;
+protected:
+	virtual bool isOutOfScreen(sf::Vector2f& shapePosition) const;
 
-	sf::Vector2f* screenDimensions;
-	
+private:	
 	int points;
 
-	virtual void move();
+	sf::Vector2f* screenDimensions;
 };
 
