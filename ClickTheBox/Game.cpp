@@ -13,12 +13,9 @@ Game::Game()
 
 	sfEvent = new sf::Event();
 
-	circle = new sf::CircleShape(100.f);
-	circle->setFillColor(sf::Color::Green);
-
 	isGameOver = false;
 
-	enemy = new SimpleEnemy(window->getSize());
+	enemyHandler = new EnemyHandler(window->getSize());
 }
 
 Game::~Game()
@@ -42,10 +39,9 @@ void Game::update()
 	updateGameObjects();
 
 	mousePosition = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
-	//std::cout << "Mouse: " << mousePosition.x << " " << mousePosition.y << "\n";
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		if (enemy->doesIntersect(mousePosition)) {
+		if (enemyHandler->isAnyEnemyHit(mousePosition) != -1) {
 			std::cout << "Click in enemy\n";
 		}
 	}
@@ -55,14 +51,16 @@ void Game::handlePollEvents()
 {
 	while (window->pollEvent(*sfEvent))
 	{
-		if (sfEvent->type == sf::Event::Closed)
+		if (sfEvent->type == sf::Event::Closed) {
 			window->close();
+			isGameOver = true;
+		}
 	}
 }
 
 void Game::updateGameObjects()
 {
-	enemy->update();
+	enemyHandler->updateEnemies();
 }
 
 void Game::render()
@@ -76,7 +74,5 @@ void Game::render()
 
 void Game::renderGameObjects()
 {
-	window->draw(*circle);
-
-	enemy->render(window);
+	enemyHandler->renderEnemies(window);
 }

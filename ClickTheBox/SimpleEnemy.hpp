@@ -2,7 +2,7 @@
 
 #include "BaseEnemy.hpp"
 
-class SimpleEnemy : BaseEnemy
+class SimpleEnemy : public BaseEnemy
 {
 public:
 	SimpleEnemy(sf::Vector2u screenDimension);

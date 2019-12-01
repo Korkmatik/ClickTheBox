@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
-#include "SimpleEnemy.hpp"
+#include "EnemyHandler.hpp"
 
 class Game
 {
@@ -20,10 +20,8 @@ private:
 	sf::Event* sfEvent;
 
 	sf::Vector2f mousePosition;
-
-	sf::CircleShape* circle;
 	
-	SimpleEnemy* enemy;
+	EnemyHandler* enemyHandler;
 
 	// Game logic attributes
 	bool isGameOver;
