@@ -5,7 +5,7 @@
 class BaseEnemy
 {
 public:
-	BaseEnemy(int points, sf::Vector2f screenDimensions);
+	BaseEnemy(int points, sf::Vector2u screenDimensions);
 	virtual ~BaseEnemy();
 
 	virtual void render(sf::RenderTarget* target) const = 0;
@@ -13,15 +13,16 @@ public:
 
 	virtual bool isOutOfScreen() const = 0;
 	virtual int getPoints() const;
+	virtual bool doesIntersect(sf::Vector2f position) const = 0;
 
-	static sf::Vector2f* generateRandomPosition(int screenWidth);
-
+	
 protected:
-	virtual bool isOutOfScreen(sf::Vector2f& shapePosition) const;
+	virtual sf::Vector2f* generateRandomPosition(float shapeWidth, float shapeHeight);
+	virtual bool isOutOfScreen(const sf::Vector2f& const shapePosition) const;
 
 private:	
 	int points;
 
-	sf::Vector2f* screenDimensions;
+	sf::Vector2u* screenDimensions;
 };
 

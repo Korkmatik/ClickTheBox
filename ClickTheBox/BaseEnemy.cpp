@@ -1,11 +1,11 @@
 #include "BaseEnemy.hpp"
 
 
-BaseEnemy::BaseEnemy(int points, sf::Vector2f screenDimensions)
+BaseEnemy::BaseEnemy(int points, sf::Vector2u screenDimensions)
 {
 	this->points = points;
 
-	this->screenDimensions = new sf::Vector2f(screenDimensions);
+	this->screenDimensions = new sf::Vector2u(screenDimensions);
 }
 
 BaseEnemy::~BaseEnemy()
@@ -13,7 +13,7 @@ BaseEnemy::~BaseEnemy()
 	delete screenDimensions;
 }
 
-bool BaseEnemy::isOutOfScreen(sf::Vector2f& shapePosition) const
+bool BaseEnemy::isOutOfScreen(const sf::Vector2f& const shapePosition) const
 {
 	bool isOutOfScreen = false;
 
@@ -30,11 +30,11 @@ int BaseEnemy::getPoints() const
 	return points;
 }
 
-sf::Vector2f* BaseEnemy::generateRandomPosition(int screenWidth)
+sf::Vector2f* BaseEnemy::generateRandomPosition(float shapeWidth, float shapeHeight)
 {
 	sf::Vector2f* randomPos = new sf::Vector2f();
-	randomPos->x = int(rand() % (screenWidth));
-	randomPos->y = 0.f;
+	randomPos->x = float(rand() % int(screenDimensions->x - shapeWidth));
+	randomPos->y = 0.f - shapeHeight;
 
 	return randomPos;
 }
