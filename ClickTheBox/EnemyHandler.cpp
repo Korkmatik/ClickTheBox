@@ -1,5 +1,7 @@
 #include "EnemyHandler.hpp"
 
+#include <string>
+
 EnemyHandler::EnemyHandler(sf::Vector2u screenWidth)
 {
 	numberEnemies = 1;
@@ -75,6 +77,8 @@ int EnemyHandler::updateEnemies()
 			delete enemies[i];
 
 			indexes.push_back(i);
+
+			numberOutOfScreen += 1;
 		}
 	}
 
@@ -83,6 +87,21 @@ int EnemyHandler::updateEnemies()
 	}
 
 	return numberOutOfScreen;
+}
+
+int EnemyHandler::killEnemy(int index)
+{
+	if (index < 0 || static_cast<unsigned>(index) >= enemies.size()) {
+		std::string exceptionStr = "There is no enemy with the index " + std::to_string(index);
+		throw std::invalid_argument(exceptionStr.c_str());
+	}
+
+	int points = enemies[index]->getPoints();
+
+	delete enemies[index];
+	enemies.erase(enemies.begin() + index);
+
+	return points;
 }
 
 void EnemyHandler::spawnSimpleEnemy()

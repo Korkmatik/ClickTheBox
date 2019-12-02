@@ -8,7 +8,7 @@ SimpleEnemy::SimpleEnemy(sf::Vector2u screenDimension) :
 
 	shape = new sf::RectangleShape();
 	shape->setFillColor(sf::Color::Green);
-	shape->setSize(sf::Vector2f(40.f, 40.f));
+	shape->setSize(sf::Vector2f(60.f, 60.f));
 
 	sf::Vector2f* randomPosition = generateRandomPosition(shape->getSize().x, shape->getSize().y);
 

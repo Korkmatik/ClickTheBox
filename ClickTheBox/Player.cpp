@@ -6,14 +6,19 @@ Player::Player(int startingHealth)
 	score = 0;
 }
 
+bool Player::isDead() const
+{
+	return health <= 0;
+}
+
 int Player::getHealth() const
 {
 	return health;
 }
 
-void Player::decreaseHealth()
+void Player::decreaseHealth(int amount)
 {
-	health -= 1;
+	health -= amount;
 }
 
 void Player::increaseHealth()

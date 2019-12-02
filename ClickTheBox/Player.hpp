@@ -4,8 +4,10 @@ class Player
 public:
 	Player(int startingHealth);
 
+	bool isDead() const;
+
 	int getHealth() const;
-	void decreaseHealth();
+	void decreaseHealth(int amount);
 	void increaseHealth();
 
 	int getScore() const;

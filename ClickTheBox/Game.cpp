@@ -15,11 +15,13 @@ Game::Game()
 
 	sfEvent = new sf::Event();
 
+	player = new Player(10);
 	isGameOver = false;
+	levelNumber = 0;
 	maxEnemyCount = 10;
 	spawnInterval = sf::milliseconds(1500);
 	timeSinceLastSpawn = spawnInterval;
-	timeToLevelUp = sf::milliseconds(2000);
+	timeToLevelUp = sf::seconds(2);
 	doLevelIncrease = true;
 
 	enemyHandler = new EnemyHandler(window->getSize());
@@ -29,11 +31,12 @@ Game::~Game()
 {
 	delete window;
 	delete sfEvent;
+	delete player;
 }
 
 void Game::start()
 {
-	gameClock.restart();
+	levelClock.restart();
 
 	while (!isGameOver)
 	{
@@ -50,8 +53,14 @@ void Game::update()
 	mousePosition = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		if (enemyHandler->isAnyEnemyHit(mousePosition) != -1) {
-			std::cout << "Click in enemy\n";
+		int enemyIndex = enemyHandler->isAnyEnemyHit(mousePosition);
+		if (enemyIndex != -1) {
+			player->increaseHealth();
+			int points = enemyHandler->killEnemy(enemyIndex);
+			player->addToScore(points);
+
+			std::cout << "Score: " << player->getScore() << "\n";
+			std::cout << "Health: " << player->getHealth() << "\n" << std::endl;
 		}
 	}
 
@@ -67,10 +76,14 @@ void Game::update()
 	
 	if (doLevelIncrease) {
 		// Increasing level
-		if (static_cast<int>(gameClock.getElapsedTime().asMilliseconds()) >= static_cast<int>(timeToLevelUp.asMilliseconds())) {
-			int newMillis = static_cast<int>(spawnInterval.asMilliseconds()) - 100;
+		if (levelClock.getElapsedTime().asMilliseconds() >= timeToLevelUp.asMilliseconds()) {
+			int newMillis = spawnInterval.asMilliseconds() - 100;
 			spawnInterval = sf::milliseconds(newMillis);
 			maxEnemyCount += 1;
+			levelNumber += 1;
+			levelClock.restart();
+
+			std::cout << "Level: " << levelNumber << "\n";
 		}
 
 		if (static_cast<int>(spawnInterval.asMilliseconds()) <= 300) {
@@ -93,7 +106,8 @@ void Game::handlePollEvents()
 
 void Game::updateGameObjects()
 {
-	enemyHandler->updateEnemies();
+	int numberEnemiesOutOfScreen = enemyHandler->updateEnemies();
+	player->decreaseHealth(numberEnemiesOutOfScreen);
 }
 
 void Game::spawnEnemy()

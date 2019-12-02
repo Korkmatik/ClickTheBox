@@ -29,6 +29,13 @@ public:
 			if no enemy was hit then it returns -1
 	*/
 	int updateEnemies();
+
+	/*
+		Kills the enemy at the specified index
+
+		Returns the enemy points
+	*/
+	int killEnemy(int index);
 private:
 	std::vector<BaseEnemy*> enemyTypes;
 	std::vector<BaseEnemy*> enemies;

@@ -4,6 +4,7 @@
 #include <SFML/Window.hpp>
 
 #include "EnemyHandler.hpp"
+#include "Player.hpp"
 
 class Game
 {
@@ -24,13 +25,15 @@ private:
 	EnemyHandler* enemyHandler;
 
 	// Game logic attributes
+	Player* player;
 	bool isGameOver;
 	bool doLevelIncrease;
 	int maxEnemyCount;
+	int levelNumber;
 	sf::Time spawnInterval;
 	sf::Time timeSinceLastSpawn;
 	sf::Clock deltaClock;
-	sf::Clock gameClock;
+	sf::Clock levelClock;
 	sf::Time timeToLevelUp;
 
 	void update();
