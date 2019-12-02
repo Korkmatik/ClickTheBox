@@ -10,18 +10,21 @@ StartScreen::StartScreen(sf::Vector2u screenDimensions)
 
 StartScreen::~StartScreen()
 {
+	delete text;
 	delete screenDimensions;
 }
 
 void StartScreen::initText()
 {
-	int characterSize = 128;
+	int characterSize = 64;
 	sf::Color fillColor = sf::Color::Blue;
 	sf::Uint32 style = sf::Text::Bold;
 	sf::Vector2f position(
 		5.f,
 		screenDimensions->y / 2 - characterSize / 2
 	);
+
+	text = new sf::Text();
 
 	text->setFont(*font);
 

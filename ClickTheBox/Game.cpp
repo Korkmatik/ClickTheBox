@@ -15,9 +15,13 @@ Game::Game()
 
 	sfEvent = new sf::Event();
 
+
 	isGameInitialized = false;
+	isGameStart = false;
 
 	initGame();
+
+	startScreen = new StartScreen(window->getSize());
 }
 
 void Game::initGame()
@@ -42,6 +46,8 @@ void Game::initGame()
 		player->getHealth(),
 		levelNumber
 	);
+
+	levelClock.restart();
 
 	isGameInitialized = true;
 }
@@ -73,9 +79,7 @@ void Game::deleteGameObjects()
 
 void Game::start()
 {
-	levelClock.restart();
-
-	while (!isGameOver && window->isOpen())
+	while (window->isOpen())
 	{
 		update();
 		render();
@@ -88,16 +92,19 @@ void Game::start()
 
 void Game::update()
 {
-	updateMousePosition();
-
 	handlePollEvents();
-	updateGameObjects();
 
-	spawnEnemyIfPossible();
-	
-	increaseLevelIfPossible();
-	
-	checkIfGameOver();
+	if (!isGameOver && isGameStart) {
+		updateMousePosition();
+
+		updateGameObjects();
+
+		spawnEnemyIfPossible();
+
+		increaseLevelIfPossible();
+
+		checkIfGameOver();
+	}
 }
 
 void Game::spawnEnemyIfPossible()
@@ -123,10 +130,9 @@ void Game::handleMousePressedEvent()
 	int enemyIndex = enemyHandler->isAnyEnemyHit(mousePosition);
 	if (enemyIndex != -1) {
 		int points = enemyHandler->killEnemy(enemyIndex);
-			
-		updatePlayerHealth();
+		
 		updatePlayerScore(points);
-
+		
 		#ifdef _DEBUG
 			std::cout << "Score: " << player->getScore() << "\n";
 			std::cout << "Health: " << player->getHealth() << "\n" << std::endl;
@@ -136,7 +142,6 @@ void Game::handleMousePressedEvent()
 
 void Game::updatePlayerHealth()
 {
-	player->increaseHealth();
 	hud->updateHealth(player->getHealth());
 }
 
@@ -196,8 +201,11 @@ void Game::handlePollEvents()
 			isGameOver = true;
 			window->close();
 		}
-		if (sfEvent->mouseButton.button == sf::Mouse::Left) {
+		if (sfEvent->mouseButton.button == sf::Mouse::Left && !isGameOver && isGameStart) {
 			handleMousePressedEvent();
+		}
+		if (sfEvent->mouseButton.button == sf::Mouse::Left && !isGameStart) {
+			isGameStart = true;
 		}
 	}
 }
@@ -206,6 +214,7 @@ void Game::updateGameObjects()
 {
 	int numberEnemiesOutOfScreen = enemyHandler->updateEnemies();
 	player->decreaseHealth(numberEnemiesOutOfScreen);
+	updatePlayerHealth();
 }
 
 void Game::spawnEnemy()
@@ -218,10 +227,15 @@ void Game::spawnEnemy()
 void Game::render()
 {
 	window->clear();
+	
+	if (!isGameStart) {
+		startScreen->render(window);
+	}
 
-	renderGameObjects();
-
-	hud->render(window);
+	if (!isGameOver && isGameStart) {
+		renderGameObjects();
+		hud->render(window);
+	}
 
 	window->display();
 }

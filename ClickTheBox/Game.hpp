@@ -6,6 +6,7 @@
 #include "EnemyHandler.hpp"
 #include "Player.hpp"
 #include "Hud.hpp"
+#include "StartScreen.hpp"
 
 class Game
 {
@@ -26,9 +27,13 @@ private:
 	// Game logic attributes
 	Player* player;
 	Hud* hud;
+	StartScreen* startScreen;
+
 	bool isGameOver;
 	bool doLevelIncrease;
 	bool isGameInitialized;
+	bool isGameStart;
+
 	int maxEnemyCount;
 	int levelNumber;
 	sf::Time spawnInterval;

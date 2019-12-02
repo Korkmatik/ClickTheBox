@@ -26,7 +26,7 @@ private:
 	sf::Text* levelTxt;
 
 	int score, health, level;
-	
+
 	virtual void initText() override;
 };
 

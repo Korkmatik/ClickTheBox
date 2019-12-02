@@ -48,7 +48,6 @@ void Hud::initText()
 Hud::~Hud()
 {
 	delete screenDimension;
-	delete font;
 	delete scoreTxt;
 	delete healthTxt;
 	delete levelTxt;

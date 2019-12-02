@@ -15,6 +15,5 @@ protected:
 	virtual void render(sf::RenderTarget* target) = 0;
 
 private:
-	void initFont();
+	virtual void initFont();
 };
-
