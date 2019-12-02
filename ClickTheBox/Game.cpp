@@ -211,6 +211,9 @@ void Game::handlePollEvents()
 		if (sfEvent->mouseButton.button == sf::Mouse::Left && !isGameStart) {
 			isGameStart = true;
 		}
+		if (sfEvent->mouseButton.button == sf::Mouse::Right && isGameOver) {
+			restartGame();
+		}
 	}
 }
 

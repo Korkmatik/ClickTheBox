@@ -13,6 +13,7 @@ public:
 	void setScore(int score);
 private:
 	sf::Text* gameOverTxt;
+	sf::Text* restartGameTxt;
 	sf::Vector2u* screenDimension;
 
 	int score;
