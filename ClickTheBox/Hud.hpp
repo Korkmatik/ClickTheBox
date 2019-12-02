@@ -25,8 +25,8 @@ private:
 	sf::Text* scoreTxt;
 	sf::Text* healthTxt;
 	sf::Text* levelTxt;
-
-	int score, health, level;
 	
+	void initFont();
+	void initText(int score, int health, int level);
 };
 

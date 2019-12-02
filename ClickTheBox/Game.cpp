@@ -17,7 +17,7 @@ Game::Game()
 
 	player = new Player(10);
 	isGameOver = false;
-	levelNumber = 0;
+	levelNumber = 1;
 	maxEnemyCount = 10;
 	spawnInterval = sf::milliseconds(1500);
 	timeSinceLastSpawn = spawnInterval;
@@ -25,6 +25,13 @@ Game::Game()
 	doLevelIncrease = true;
 
 	enemyHandler = new EnemyHandler(window->getSize());
+
+	hud = new Hud(
+		window->getSize(), 
+		player->getScore(), 
+		player->getHealth(), 
+		levelNumber
+	);
 }
 
 Game::~Game()
@@ -51,22 +58,19 @@ void Game::start()
 
 void Game::update()
 {
+	updateMousePosition();
+
 	handlePollEvents();
 	updateGameObjects();
 
-	updateMousePosition();
-
-	handleUserInput();
-
-	checkIfEnemySpawnable();
-
+	spawnEnemyIfSpawnable();
 	
-	checkIfGameIncrease();
+	increaseLevelIfPossible();
 	
 	checkIfGameOver();
 }
 
-void Game::checkIfEnemySpawnable()
+void Game::spawnEnemyIfSpawnable()
 {
 	if (timeSinceLastSpawn >= spawnInterval) {
 		spawnEnemy();
@@ -77,28 +81,40 @@ void Game::checkIfEnemySpawnable()
 	}
 }
 
-void Game::checkIfGameIncrease()
+void Game::increaseLevelIfPossible()
 {
 	if (doLevelIncrease) {
 		increaseLevel();
 	}
 }
 
-void Game::handleUserInput()
+void Game::handleMousePressedEvent()
 {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		int enemyIndex = enemyHandler->isAnyEnemyHit(mousePosition);
-		if (enemyIndex != -1) {
-			player->increaseHealth();
-			int points = enemyHandler->killEnemy(enemyIndex);
-			player->addToScore(points);
+	int enemyIndex = enemyHandler->isAnyEnemyHit(mousePosition);
+	if (enemyIndex != -1) {
+		int points = enemyHandler->killEnemy(enemyIndex);
+			
+		updatePlayerHealth();
+		updatePlayerScore(points);
 
-#ifdef _DEBUG
+		#ifdef _DEBUG
 			std::cout << "Score: " << player->getScore() << "\n";
 			std::cout << "Health: " << player->getHealth() << "\n" << std::endl;
-#endif // _DEBUG
+		#endif // _DEBUG
 		}
-	}
+	
+}
+
+void Game::updatePlayerHealth()
+{
+	player->increaseHealth();
+	hud->updateHealth(player->getHealth());
+}
+
+void Game::updatePlayerScore(int points)
+{
+	player->addToScore(points);
+	hud->updateScore(player->getScore());
 }
 
 void Game::updateMousePosition()
@@ -119,9 +135,9 @@ void Game::increaseLevel()
 		int newMillis = spawnInterval.asMilliseconds() - 100;
 		spawnInterval = sf::milliseconds(newMillis);
 		maxEnemyCount += 1;
-		levelNumber += 1;
 		levelClock.restart();
 
+		updateLevel();
 #ifdef _DEBUG
 		std::cout << "Level: " << levelNumber << "\n";
 #endif // _DEBUG		
@@ -130,6 +146,12 @@ void Game::increaseLevel()
 	if (isMaxLevelReached()) {
 		doLevelIncrease = false;
 	}
+}
+
+void Game::updateLevel()
+{
+	levelNumber += 1;
+	hud->udpateLevel(levelNumber);
 }
 
 bool Game::isMaxLevelReached()
@@ -143,6 +165,9 @@ void Game::handlePollEvents()
 	{
 		if (sfEvent->type == sf::Event::Closed) {
 			window->close();
+		}
+		if (sfEvent->mouseButton.button == sf::Mouse::Left) {
+			handleMousePressedEvent();
 		}
 	}
 }
@@ -165,6 +190,8 @@ void Game::render()
 	window->clear();
 
 	renderGameObjects();
+
+	hud->render(window);
 
 	window->display();
 }
