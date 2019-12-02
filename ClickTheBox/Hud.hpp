@@ -1,8 +1,8 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include "BaseUI.hpp"
 
-class Hud
+class Hud : public BaseUI
 {
 public:
 	Hud(sf::Vector2u screenDimension,
@@ -20,13 +20,13 @@ public:
 
 private:
 	sf::Vector2u* screenDimension;
-	sf::Font* font;
 
 	sf::Text* scoreTxt;
 	sf::Text* healthTxt;
 	sf::Text* levelTxt;
+
+	int score, health, level;
 	
-	void initFont();
-	void initText(int score, int health, int level);
+	virtual void initText() override;
 };
 

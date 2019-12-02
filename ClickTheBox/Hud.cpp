@@ -1,22 +1,18 @@
 #include "Hud.hpp"
 
 Hud::Hud(sf::Vector2u screenDimension, int score, int health, int level)
+	: BaseUI()
 {
 	this->screenDimension = new sf::Vector2u(screenDimension);
 
-	initFont();
-	initText(score, health, level);
+	this->score = score;
+	this->health = health;
+	this->level = level;
+
+	initText();
 }
 
-void Hud::initFont()
-{
-	font = new sf::Font();
-	if (!font->loadFromFile("arial.ttf")) {
-		throw std::invalid_argument("Could not load Font: arial.ttf");
-	}
-}
-
-void Hud::initText(int score, int health, int level)
+void Hud::initText()
 {
 	int txtSize = 24;
 	int marginTop = 8;

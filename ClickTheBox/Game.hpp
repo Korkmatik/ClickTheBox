@@ -41,17 +41,23 @@ private:
 	void restartGame();
 
 	void update();
-	void spawnEnemyIfSpawnable();
+	void spawnEnemyIfPossible();
 	void increaseLevelIfPossible();
-	void handleMousePressedEvent();
+	
 	void updatePlayerHealth();
 	void updatePlayerScore(int points);
+	
 	void updateMousePosition();
+	
 	void checkIfGameOver();
+	
 	void increaseLevel();
 	void updateLevel();
 	bool isMaxLevelReached();
+	
 	void handlePollEvents();
+	void handleMousePressedEvent();
+
 	void updateGameObjects();
 	void spawnEnemy();
 

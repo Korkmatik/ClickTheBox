@@ -93,14 +93,14 @@ void Game::update()
 	handlePollEvents();
 	updateGameObjects();
 
-	spawnEnemyIfSpawnable();
+	spawnEnemyIfPossible();
 	
 	increaseLevelIfPossible();
 	
 	checkIfGameOver();
 }
 
-void Game::spawnEnemyIfSpawnable()
+void Game::spawnEnemyIfPossible()
 {
 	if (timeSinceLastSpawn >= spawnInterval) {
 		spawnEnemy();
