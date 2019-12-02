@@ -75,22 +75,31 @@ void Game::update()
 
 	
 	if (doLevelIncrease) {
-		// Increasing level
-		if (levelClock.getElapsedTime().asMilliseconds() >= timeToLevelUp.asMilliseconds()) {
-			int newMillis = spawnInterval.asMilliseconds() - 100;
-			spawnInterval = sf::milliseconds(newMillis);
-			maxEnemyCount += 1;
-			levelNumber += 1;
-			levelClock.restart();
-
-			std::cout << "Level: " << levelNumber << "\n";
-		}
-
-		if (static_cast<int>(spawnInterval.asMilliseconds()) <= 300) {
-			doLevelIncrease = false;
-		}
+		increaseLevel();
 	}
 	
+}
+
+void Game::increaseLevel()
+{
+	if (levelClock.getElapsedTime().asMilliseconds() >= timeToLevelUp.asMilliseconds()) {
+		int newMillis = spawnInterval.asMilliseconds() - 100;
+		spawnInterval = sf::milliseconds(newMillis);
+		maxEnemyCount += 1;
+		levelNumber += 1;
+		levelClock.restart();
+
+		std::cout << "Level: " << levelNumber << "\n";
+	}
+
+	if (isMaxLevelReached()) {
+		doLevelIncrease = false;
+	}
+}
+
+bool Game::isMaxLevelReached()
+{
+	return static_cast<int>(spawnInterval.asMilliseconds()) <= 300;
 }
 
 void Game::handlePollEvents()

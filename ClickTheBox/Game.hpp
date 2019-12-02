@@ -37,6 +37,8 @@ private:
 	sf::Time timeToLevelUp;
 
 	void update();
+	void increaseLevel();
+	bool isMaxLevelReached();
 	void handlePollEvents();
 	void updateGameObjects();
 	void spawnEnemy();
