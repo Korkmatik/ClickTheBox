@@ -8,8 +8,6 @@
 
 class Game
 {
-	
-
 public:
 	Game();
 	virtual ~Game();
@@ -37,6 +35,11 @@ private:
 	sf::Time timeToLevelUp;
 
 	void update();
+	void checkIfEnemySpawnable();
+	void checkIfGameIncrease();
+	void handleUserInput();
+	void updateMousePosition();
+	void checkIfGameOver();
 	void increaseLevel();
 	bool isMaxLevelReached();
 	void handlePollEvents();

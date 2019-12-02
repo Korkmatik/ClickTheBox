@@ -38,11 +38,15 @@ void Game::start()
 {
 	levelClock.restart();
 
-	while (!isGameOver)
+	while (!isGameOver && window->isOpen())
 	{
 		update();
 		render();
 	}
+
+#ifdef _DEBUG
+	std::cout << "Game Over" << std::endl;
+#endif // _DEBUG
 }
 
 void Game::update()
@@ -50,21 +54,20 @@ void Game::update()
 	handlePollEvents();
 	updateGameObjects();
 
-	mousePosition = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
+	updateMousePosition();
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		int enemyIndex = enemyHandler->isAnyEnemyHit(mousePosition);
-		if (enemyIndex != -1) {
-			player->increaseHealth();
-			int points = enemyHandler->killEnemy(enemyIndex);
-			player->addToScore(points);
+	handleUserInput();
 
-			std::cout << "Score: " << player->getScore() << "\n";
-			std::cout << "Health: " << player->getHealth() << "\n" << std::endl;
-		}
-	}
+	checkIfEnemySpawnable();
 
-	// Spawning Enemies
+	
+	checkIfGameIncrease();
+	
+	checkIfGameOver();
+}
+
+void Game::checkIfEnemySpawnable()
+{
 	if (timeSinceLastSpawn >= spawnInterval) {
 		spawnEnemy();
 		timeSinceLastSpawn = sf::milliseconds(0);
@@ -72,12 +75,42 @@ void Game::update()
 	else {
 		timeSinceLastSpawn += sf::milliseconds(deltaClock.restart().asMilliseconds());
 	}
+}
 
-	
+void Game::checkIfGameIncrease()
+{
 	if (doLevelIncrease) {
 		increaseLevel();
 	}
-	
+}
+
+void Game::handleUserInput()
+{
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		int enemyIndex = enemyHandler->isAnyEnemyHit(mousePosition);
+		if (enemyIndex != -1) {
+			player->increaseHealth();
+			int points = enemyHandler->killEnemy(enemyIndex);
+			player->addToScore(points);
+
+#ifdef _DEBUG
+			std::cout << "Score: " << player->getScore() << "\n";
+			std::cout << "Health: " << player->getHealth() << "\n" << std::endl;
+#endif // _DEBUG
+		}
+	}
+}
+
+void Game::updateMousePosition()
+{
+	mousePosition = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
+}
+
+void Game::checkIfGameOver()
+{
+	if (player->isDead()) {
+		isGameOver = true;
+	}
 }
 
 void Game::increaseLevel()
@@ -89,7 +122,9 @@ void Game::increaseLevel()
 		levelNumber += 1;
 		levelClock.restart();
 
+#ifdef _DEBUG
 		std::cout << "Level: " << levelNumber << "\n";
+#endif // _DEBUG		
 	}
 
 	if (isMaxLevelReached()) {
@@ -108,7 +143,6 @@ void Game::handlePollEvents()
 	{
 		if (sfEvent->type == sf::Event::Closed) {
 			window->close();
-			isGameOver = true;
 		}
 	}
 }
