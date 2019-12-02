@@ -22,6 +22,7 @@ Game::Game()
 	initGame();
 
 	startScreen = new StartScreen(window->getSize());
+	gameOverScreen = new GameOverUI(window->getSize());
 }
 
 void Game::initGame()
@@ -31,6 +32,7 @@ void Game::initGame()
 
 	player = new Player(10);
 	isGameOver = false;
+	isGameStart = false;
 	levelNumber = 1;
 	maxEnemyCount = 10;
 	spawnInterval = sf::milliseconds(1500);
@@ -62,6 +64,8 @@ Game::~Game()
 {
 	delete window;
 	delete sfEvent;
+	delete gameOverScreen;
+	delete startScreen;
 	deleteGameObjects();
 }
 
@@ -230,6 +234,11 @@ void Game::render()
 	
 	if (!isGameStart) {
 		startScreen->render(window);
+	}
+
+	if (isGameOver) {
+		gameOverScreen->setScore(player->getScore());
+		gameOverScreen->render(window);
 	}
 
 	if (!isGameOver && isGameStart) {

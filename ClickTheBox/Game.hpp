@@ -7,6 +7,7 @@
 #include "Player.hpp"
 #include "Hud.hpp"
 #include "StartScreen.hpp"
+#include "GameOverUI.hpp"
 
 class Game
 {
@@ -26,8 +27,10 @@ private:
 
 	// Game logic attributes
 	Player* player;
+
 	Hud* hud;
 	StartScreen* startScreen;
+	GameOverUI* gameOverScreen;
 
 	bool isGameOver;
 	bool doLevelIncrease;
