@@ -12,6 +12,7 @@ protected:
 	sf::Font* font;
 
 	virtual void initText() = 0;
+	virtual void render(sf::RenderTarget* target) = 0;
 
 private:
 	void initFont();

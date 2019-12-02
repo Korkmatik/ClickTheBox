@@ -1,17 +1,19 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include "BaseUI.hpp"
 
-class StartScreen
+class StartScreen : public BaseUI
 {
 public:
 	StartScreen(sf::Vector2u screenDimensions);
 	virtual ~StartScreen();
 
+	virtual void render(sf::RenderTarget* target) override;
 private:
 	sf::Vector2u* screenDimensions;
 
-	sf::Font* font;
 	sf::Text* text;
+
+	virtual void initText() override;
 };
 

@@ -16,7 +16,7 @@ public:
 	void updateHealth(int health);
 	void udpateLevel(int level);
 
-	void render(sf::RenderTarget* target);
+	virtual void render(sf::RenderTarget* target) override;
 
 private:
 	sf::Vector2u* screenDimension;
