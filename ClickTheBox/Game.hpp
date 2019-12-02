@@ -28,6 +28,7 @@ private:
 	Hud* hud;
 	bool isGameOver;
 	bool doLevelIncrease;
+	bool isGameInitialized;
 	int maxEnemyCount;
 	int levelNumber;
 	sf::Time spawnInterval;
@@ -35,6 +36,9 @@ private:
 	sf::Clock deltaClock;
 	sf::Clock levelClock;
 	sf::Time timeToLevelUp;
+
+	void initGame();
+	void restartGame();
 
 	void update();
 	void spawnEnemyIfSpawnable();
@@ -53,5 +57,7 @@ private:
 
 	void render();
 	void renderGameObjects();
+
+	void deleteGameObjects();
 };
 

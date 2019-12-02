@@ -15,6 +15,16 @@ Game::Game()
 
 	sfEvent = new sf::Event();
 
+	isGameInitialized = false;
+
+	initGame();
+}
+
+void Game::initGame()
+{
+	if (isGameInitialized)
+		return;
+
 	player = new Player(10);
 	isGameOver = false;
 	levelNumber = 1;
@@ -27,18 +37,38 @@ Game::Game()
 	enemyHandler = new EnemyHandler(window->getSize());
 
 	hud = new Hud(
-		window->getSize(), 
-		player->getScore(), 
-		player->getHealth(), 
+		window->getSize(),
+		player->getScore(),
+		player->getHealth(),
 		levelNumber
 	);
+
+	isGameInitialized = true;
+}
+
+void Game::restartGame()
+{
+	deleteGameObjects();
+	initGame();
 }
 
 Game::~Game()
 {
 	delete window;
 	delete sfEvent;
-	delete player;
+	deleteGameObjects();
+}
+
+void Game::deleteGameObjects()
+{
+	if (isGameInitialized) {
+		delete player;
+		delete hud;
+		delete enemyHandler;
+
+		isGameInitialized = false;
+	}
+	
 }
 
 void Game::start()
@@ -51,9 +81,9 @@ void Game::start()
 		render();
 	}
 
-#ifdef _DEBUG
-	std::cout << "Game Over" << std::endl;
-#endif // _DEBUG
+	#ifdef _DEBUG
+		std::cout << "Game Over" << std::endl;
+	#endif // _DEBUG
 }
 
 void Game::update()
@@ -102,7 +132,6 @@ void Game::handleMousePressedEvent()
 			std::cout << "Health: " << player->getHealth() << "\n" << std::endl;
 		#endif // _DEBUG
 		}
-	
 }
 
 void Game::updatePlayerHealth()
@@ -164,6 +193,7 @@ void Game::handlePollEvents()
 	while (window->pollEvent(*sfEvent))
 	{
 		if (sfEvent->type == sf::Event::Closed) {
+			isGameOver = true;
 			window->close();
 		}
 		if (sfEvent->mouseButton.button == sf::Mouse::Left) {
