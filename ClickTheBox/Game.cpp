@@ -36,8 +36,14 @@ void Game::initGame()
 	levelNumber = 1;
 	maxEnemyCount = 10;
 	spawnInterval = sf::milliseconds(1500);
+	
 	timeSinceLastSpawn = spawnInterval;
 	timeToLevelUp = sf::seconds(2);
+	
+	backgroundClock.restart();
+	deltaClock.restart();
+	levelClock.restart();
+
 	doLevelIncrease = true;
 
 	enemyHandler = new EnemyHandler(window->getSize());
@@ -100,13 +106,9 @@ void Game::update()
 
 	if (!isGameOver && isGameStart) {
 		updateMousePosition();
-
 		updateGameObjects();
-
 		spawnEnemyIfPossible();
-
 		increaseLevelIfPossible();
-
 		checkIfGameOver();
 	}
 }
@@ -141,7 +143,7 @@ void Game::handleMousePressedEvent()
 			std::cout << "Score: " << player->getScore() << "\n";
 			std::cout << "Health: " << player->getHealth() << "\n" << std::endl;
 		#endif // _DEBUG
-		}
+	}
 }
 
 void Game::updatePlayerHealth()
@@ -165,6 +167,24 @@ void Game::checkIfGameOver()
 	if (player->isDead()) {
 		isGameOver = true;
 	}
+}
+
+sf::Color Game::getRandomBackGround()
+{
+	using namespace sf;
+
+	static Color colors[] = {
+				Color::Black,
+				Color::White,
+				Color::Red,
+				Color::Green,
+				Color::Blue,
+				Color::Yellow,
+				Color::Magenta,
+				Color::Cyan
+	};
+
+	return colors[static_cast<int>(rand() % 8)];
 }
 
 void Game::increaseLevel()
@@ -233,7 +253,23 @@ void Game::spawnEnemy()
 
 void Game::render()
 {
-	window->clear();
+	sf::Color backgroundColor;
+
+	if (!doLevelIncrease &&
+		!isGameOver) {
+
+		static sf::Color randomBackground;
+		if (static_cast<int>(backgroundClock.getElapsedTime().asSeconds()) > 3) {
+			randomBackground = getRandomBackGround();
+			backgroundClock.restart();
+		}
+		backgroundColor = randomBackground;
+	}
+	else {
+		 backgroundColor = sf::Color::Black;
+	}
+
+	window->clear(backgroundColor);
 	
 	if (!isGameStart) {
 		startScreen->render(window);

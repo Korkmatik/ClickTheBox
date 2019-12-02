@@ -43,6 +43,7 @@ private:
 	sf::Time timeSinceLastSpawn;
 	sf::Clock deltaClock;
 	sf::Clock levelClock;
+	sf::Clock backgroundClock;
 	sf::Time timeToLevelUp;
 
 	void initGame();
@@ -58,6 +59,7 @@ private:
 	void updateMousePosition();
 	
 	void checkIfGameOver();
+	sf::Color getRandomBackGround();
 	
 	void increaseLevel();
 	void updateLevel();
