@@ -3,6 +3,7 @@ class Player
 {
 public:
 	Player(int startingHealth);
+	virtual ~Player();
 
 	bool isDead() const;
 
@@ -16,5 +17,8 @@ public:
 private:
 	int health;
 	int score;
+	int highscore;
+
+	void loadHighScoreFromFile();
 };
 
