@@ -72,6 +72,8 @@ private:
 	void spawnEnemy();
 
 	void render();
+	void renderGame();
+	void renderGameOverScreen();
 	void renderGameObjects();
 
 	void deleteGameObjects();

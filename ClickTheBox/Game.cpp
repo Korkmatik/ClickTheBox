@@ -280,17 +280,27 @@ void Game::render()
 	}
 
 	if (isGameOver) {
-		gameOverScreen->setScore(player->getScore());
-		gameOverScreen->setHighscore(player->getHighscore());
-		gameOverScreen->render(window);
+		renderGameOverScreen();
 	}
 
 	if (!isGameOver && isGameStart) {
-		renderGameObjects();
-		hud->render(window);
+		renderGame();
 	}
 
 	window->display();
+}
+
+void Game::renderGame()
+{
+	renderGameObjects();
+	hud->render(window);
+}
+
+void Game::renderGameOverScreen()
+{
+	gameOverScreen->setScore(player->getScore());
+	gameOverScreen->setHighscore(player->getHighscore());
+	gameOverScreen->render(window);
 }
 
 void Game::renderGameObjects()

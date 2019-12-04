@@ -60,6 +60,7 @@ Hud::~Hud()
 	delete scoreTxt;
 	delete healthTxt;
 	delete levelTxt;
+	delete highscoreTxt;
 }
 
 void Hud::updateScore(int score)
