@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 
 Player::Player(int startingHealth)
 {
@@ -72,6 +73,11 @@ int Player::getHighscore() const
 
 void Player::loadHighScoreFromFile()
 {
+	if (!std::filesystem::exists("highscore.txt")) {
+		highscore = 0;
+		return;
+	}
+
 	try {
 		std::ifstream file;
 		file.open("highscore.txt");
