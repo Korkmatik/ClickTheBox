@@ -10,3 +10,4 @@ Magenta Enemy: Gives 10 Points<br/>
 Red Enemy: Gives 20 Points<br/>
 
 # Screenshots
+<img src="Screenshots/Screen.png" width="50%"/>
