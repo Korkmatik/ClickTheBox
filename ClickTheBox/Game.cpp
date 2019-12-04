@@ -95,7 +95,7 @@ void Game::start()
 	}
 
 	#ifdef _DEBUG
-		std::cout << "Game Over" << std::endl;
+		std::cout << "Window closed" << std::endl;
 	#endif // _DEBUG
 }
 
@@ -281,6 +281,7 @@ void Game::render()
 
 	if (isGameOver) {
 		gameOverScreen->setScore(player->getScore());
+		gameOverScreen->setHighscore(player->getHighscore());
 		gameOverScreen->render(window);
 	}
 

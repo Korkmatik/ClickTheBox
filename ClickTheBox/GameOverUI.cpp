@@ -13,11 +13,13 @@ GameOverUI::~GameOverUI()
 {
 	delete gameOverTxt;
 	delete screenDimension;
+	delete highscoreTxt;
 }
 
 void GameOverUI::render(sf::RenderTarget* target)
 {
 	target->draw(*gameOverTxt);
+	target->draw(*highscoreTxt);
 	target->draw(*restartGameTxt);
 }
 
@@ -25,6 +27,12 @@ void GameOverUI::setScore(int score)
 {
 	std::string message = "Game Over! Your Score: " + std::to_string(score);
 	gameOverTxt->setString(message);
+}
+
+void GameOverUI::setHighscore(int highscore)
+{
+	std::string message = "Your Highscore: " + std::to_string(highscore);
+	highscoreTxt->setString(message);
 }
 
 void GameOverUI::initText()
@@ -45,13 +53,24 @@ void GameOverUI::initText()
 	gameOverTxt->setStyle(style);
 	gameOverTxt->setPosition(positionGameOver);
 
+	sf::Vector2f positionHighscoreTxt(
+		20.f,
+		screenDimension->y / 2 + characterSize * 1.1f
+	);
+
+	highscoreTxt = new sf::Text();
+	highscoreTxt->setFont(*font);
+	highscoreTxt->setCharacterSize(characterSize);
+	highscoreTxt->setFillColor(fillColor);
+	highscoreTxt->setStyle(style);
+	highscoreTxt->setPosition(positionHighscoreTxt);
+
 	sf::Vector2f positionRestartTxt(
 		20.f,
-		screenDimension->y / 2 + characterSize * 2
+		screenDimension->y / 2 + characterSize * 3
 	);
 
 	restartGameTxt = new sf::Text();
-
 	restartGameTxt->setFont(*font);
 	restartGameTxt->setCharacterSize(characterSize / 2);
 	restartGameTxt->setFillColor(sf::Color::Magenta);
