@@ -16,5 +16,7 @@ public:
 
 private:
 	sf::RectangleShape* shape;
+
+	float speed;
 };
 

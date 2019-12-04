@@ -19,6 +19,7 @@ public:
 
 private:
 	sf::RectangleShape* shape;
+	float speed;
 
 	const sf::Vector2u* screenDimension;
 };

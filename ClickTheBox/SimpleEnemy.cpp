@@ -11,10 +11,10 @@ SimpleEnemy::SimpleEnemy(sf::Vector2u screenDimension) :
 	shape->setSize(sf::Vector2f(60.f, 60.f));
 
 	sf::Vector2f* randomPosition = generateRandomPosition(shape->getSize().x, shape->getSize().y);
-
 	shape->setPosition(*randomPosition);
-
 	delete randomPosition;
+
+	speed = 5.f;
 }
 
 SimpleEnemy::~SimpleEnemy()
@@ -25,7 +25,7 @@ SimpleEnemy::~SimpleEnemy()
 
 void SimpleEnemy::update()
 {
-	shape->move(0, 5.f);
+	shape->move(0, speed);
 }
 
 void SimpleEnemy::render(sf::RenderTarget* target) const

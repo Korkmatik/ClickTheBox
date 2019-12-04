@@ -10,6 +10,8 @@ MediumEnemy::MediumEnemy(sf::Vector2u screenDimensions)
 	sf::Vector2f* position = generateRandomPosition(shape->getSize().x, shape->getSize().y);
 	shape->setPosition(*position);
 	delete position;
+
+	speed = 5.f;
 }
 
 MediumEnemy::~MediumEnemy()
@@ -24,7 +26,7 @@ void MediumEnemy::render(sf::RenderTarget* target) const
 
 void MediumEnemy::update()
 {
-	shape->move(0.f, 5.f);
+	shape->move(0.f, speed);
 }
 
 bool MediumEnemy::isOutOfScreen() const
