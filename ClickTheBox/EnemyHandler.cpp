@@ -42,7 +42,20 @@ int EnemyHandler::getNumberActiveEnemies() const
 
 void EnemyHandler::spawnEnemy(int level)
 {
-	int randomEnemyNumber = rand() % numberEnemies;
+	int numberSpawnableEnemies = 1;
+
+	if (level >= 10) {
+		numberSpawnableEnemies = 3;
+	}
+	else if (level >= 5) {
+		numberSpawnableEnemies = 2;
+	}
+
+	if (numberSpawnableEnemies > numberEnemies) {
+		numberSpawnableEnemies = numberEnemies;
+	}
+
+	int randomEnemyNumber = rand() % numberSpawnableEnemies;
 
 	switch (randomEnemyNumber) {
 	case 0:
@@ -58,6 +71,7 @@ void EnemyHandler::spawnEnemy(int level)
 		printf("No such enemy: %d", randomEnemyNumber);
 		break;
 	}
+	
 }
 
 void EnemyHandler::renderEnemies(sf::RenderTarget* target)
