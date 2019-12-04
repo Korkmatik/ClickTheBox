@@ -32,6 +32,10 @@ public:
 	*/
 	int updateEnemies();
 
+	void updateEachEnemy();
+
+	int deleteEnemiesThatAreOutOfScreen();
+
 	/*
 		Kills the enemy at the specified index
 

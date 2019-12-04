@@ -84,26 +84,38 @@ void EnemyHandler::renderEnemies(sf::RenderTarget* target)
 int EnemyHandler::updateEnemies()
 {
 	// Updating each Enemy
+	updateEachEnemy();
+
+	int numberOutOfScreen = deleteEnemiesThatAreOutOfScreen();
+
+	return numberOutOfScreen;
+}
+
+void EnemyHandler::updateEachEnemy()
+{
 	for (unsigned i = 0; i < enemies.size(); i++) {
 		enemies[i]->update();
 	}
+}
 
+int EnemyHandler::deleteEnemiesThatAreOutOfScreen()
+{
 	int numberOutOfScreen = 0;
 
-	std::vector<int> indexes;
-
-	for (unsigned i = 0; i < enemies.size(); i++) {
+	for (unsigned i = 0; i < enemies.size();) {
 		if (enemies[i]->isOutOfScreen()) {
 			delete enemies[i];
 
-			indexes.push_back(i);
+			enemies.erase(enemies.begin() + i);
 
 			numberOutOfScreen += 1;
+			continue;
 		}
-	}
+		i++;
 
-	for (unsigned i = 0; i < indexes.size(); i++) {
-		enemies.erase(enemies.begin() + indexes[i]);
+		if (i >= enemies.size()) {
+			break;
+		}
 	}
 
 	return numberOutOfScreen;
