@@ -4,7 +4,7 @@
 
 #include "SimpleEnemy.hpp"
 #include "MediumEnemy.hpp"
-#include "HardEnemy.h"
+#include "HardEnemy.hpp"
 
 class EnemyHandler
 {
@@ -15,14 +15,13 @@ public:
 	/*
 		Checks if any enemy is hit
 
-		Returns the first enemy index that was hit
+		Returns the index of the enemy that was hit
 	*/
 	int isAnyEnemyHit(sf::Vector2f position) const;
 	int getNumberActiveEnemies() const;
 
 	void spawnEnemy(int level);
 	
-
 	void renderEnemies(sf::RenderTarget* target);
 
 	/*

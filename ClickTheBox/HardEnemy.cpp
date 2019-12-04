@@ -1,4 +1,4 @@
-#include "HardEnemy.h"
+#include "HardEnemy.hpp"
 
 HardEnemy::HardEnemy(sf::Vector2u screenDimensions)
 	: BaseEnemy(20, screenDimensions)

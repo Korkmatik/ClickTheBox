@@ -83,7 +83,7 @@
     <ClInclude Include="MediumEnemy.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HardEnemy.h">
+    <ClInclude Include="HardEnemy.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

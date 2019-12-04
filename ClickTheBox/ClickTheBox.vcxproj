@@ -148,7 +148,7 @@
     <ClInclude Include="EnemyHandler.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameOverUI.hpp" />
-    <ClInclude Include="HardEnemy.h" />
+    <ClInclude Include="HardEnemy.hpp" />
     <ClInclude Include="Hud.hpp" />
     <ClInclude Include="MediumEnemy.hpp" />
     <ClInclude Include="Player.hpp" />
