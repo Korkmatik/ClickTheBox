@@ -51,7 +51,8 @@ void Game::initGame()
 		window->getSize(),
 		player->getScore(),
 		player->getHealth(),
-		levelNumber
+		levelNumber,
+		player->getHighscore()
 	);
 
 	levelClock.restart();

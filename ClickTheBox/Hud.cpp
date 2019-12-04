@@ -1,6 +1,6 @@
 #include "Hud.hpp"
 
-Hud::Hud(sf::Vector2u screenDimension, int score, int health, int level)
+Hud::Hud(sf::Vector2u screenDimension, int score, int health, int level, int highscore)
 	: BaseUI()
 {
 	this->screenDimension = new sf::Vector2u(screenDimension);
@@ -8,6 +8,7 @@ Hud::Hud(sf::Vector2u screenDimension, int score, int health, int level)
 	this->score = score;
 	this->health = health;
 	this->level = level;
+	this->highscore = highscore;
 
 	initText();
 }
@@ -28,13 +29,21 @@ void Hud::initText()
 	scoreTxt->setCharacterSize(txtSize);
 	scoreTxt->setPosition(leftPos, 0.f);
 
+	highscoreTxt = new sf::Text();
+	highscoreTxt->setFont(*font);
+	highscoreTxt->setString("Highscore: " + std::to_string(highscore));
+	highscoreTxt->setFillColor(txtColor);
+	highscoreTxt->setStyle(sf::Text::Bold);
+	highscoreTxt->setCharacterSize(txtSize);
+	highscoreTxt->setPosition(leftPos, static_cast<float>(txtSize + marginTop));
+
 	healthTxt = new sf::Text();
 	healthTxt->setFont(*font);
 	healthTxt->setString("Health: " + std::to_string(health));
 	healthTxt->setFillColor(txtColor);
 	healthTxt->setStyle(sf::Text::Bold);
 	healthTxt->setCharacterSize(txtSize);
-	healthTxt->setPosition(leftPos, static_cast<float>(txtSize + marginTop));
+	healthTxt->setPosition(leftPos, static_cast<float>((txtSize + marginTop) * 2));
 
 	levelTxt = new sf::Text();
 	levelTxt->setFont(*font);
@@ -42,7 +51,7 @@ void Hud::initText()
 	levelTxt->setFillColor(txtColor);
 	levelTxt->setStyle(sf::Text::Bold);
 	levelTxt->setCharacterSize(txtSize);
-	levelTxt->setPosition(leftPos, static_cast<float>((txtSize + marginTop) * 2));
+	levelTxt->setPosition(leftPos, static_cast<float>((txtSize + marginTop) * 3));
 }
 
 Hud::~Hud()
@@ -72,5 +81,6 @@ void Hud::render(sf::RenderTarget* target)
 {
 	target->draw(*healthTxt);
 	target->draw(*scoreTxt);
+	target->draw(*highscoreTxt);
 	target->draw(*levelTxt);
 }

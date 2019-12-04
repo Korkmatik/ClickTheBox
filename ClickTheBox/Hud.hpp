@@ -8,7 +8,8 @@ public:
 	Hud(sf::Vector2u screenDimension,
 		int score,
 		int health,
-		int level
+		int level,
+		int highscore
 	);
 	virtual ~Hud();
 
@@ -24,8 +25,9 @@ private:
 	sf::Text* scoreTxt;
 	sf::Text* healthTxt;
 	sf::Text* levelTxt;
+	sf::Text* highscoreTxt;
 
-	int score, health, level;
+	int score, health, level, highscore;
 
 	virtual void initText() override;
 };

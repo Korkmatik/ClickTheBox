@@ -339,3 +339,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /ClickTheBox/arial.ttf
+ClickTheBox/highscore.txt

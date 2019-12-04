@@ -14,6 +14,8 @@ public:
 	int getScore() const;
 	void addToScore(int value);
 
+	int getHighscore() const;
+
 private:
 	int health;
 	int score;

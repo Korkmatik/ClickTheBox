@@ -65,6 +65,11 @@ void Player::addToScore(int value)
 	}
 }
 
+int Player::getHighscore() const
+{
+	return highscore;
+}
+
 void Player::loadHighScoreFromFile()
 {
 	try {
