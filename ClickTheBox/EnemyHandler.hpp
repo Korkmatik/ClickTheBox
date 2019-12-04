@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "SimpleEnemy.hpp"
+#include "MediumEnemy.hpp"
 
 class EnemyHandler
 {
@@ -18,7 +19,8 @@ public:
 	int isAnyEnemyHit(sf::Vector2f position) const;
 	int getNumberActiveEnemies() const;
 
-	void spawnEnemy();
+	void spawnEnemy(int level);
+	
 
 	void renderEnemies(sf::RenderTarget* target);
 
@@ -44,6 +46,7 @@ private:
 
 	int numberEnemies;
 
-	void spawnSimpleEnemy();
+	void spawnSimpleEnemy(); 
+	void spawnMediumEnemy();
 };
 

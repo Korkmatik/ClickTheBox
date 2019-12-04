@@ -84,7 +84,6 @@ void Game::deleteGameObjects()
 
 		isGameInitialized = false;
 	}
-	
 }
 
 void Game::start()
@@ -138,6 +137,11 @@ void Game::handleMousePressedEvent()
 		int points = enemyHandler->killEnemy(enemyIndex);
 		
 		updatePlayerScore(points);
+
+		if (!doLevelIncrease) {
+			player->increaseHealth();
+			updatePlayerHealth();
+		}
 		
 		#ifdef _DEBUG
 			std::cout << "Score: " << player->getScore() << "\n";
@@ -247,7 +251,7 @@ void Game::updateGameObjects()
 void Game::spawnEnemy()
 {
 	if (enemyHandler->getNumberActiveEnemies() < maxEnemyCount) {
-		enemyHandler->spawnEnemy();
+		enemyHandler->spawnEnemy(levelNumber);
 	}
 }
 
@@ -259,7 +263,7 @@ void Game::render()
 		!isGameOver) {
 
 		static sf::Color randomBackground;
-		if (static_cast<int>(backgroundClock.getElapsedTime().asSeconds()) > 3) {
+		if (static_cast<int>(backgroundClock.getElapsedTime().asMilliseconds()) > 300) {
 			randomBackground = getRandomBackGround();
 			backgroundClock.restart();
 		}

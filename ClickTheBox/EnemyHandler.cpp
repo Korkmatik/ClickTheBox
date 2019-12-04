@@ -4,7 +4,7 @@
 
 EnemyHandler::EnemyHandler(sf::Vector2u screenWidth)
 {
-	numberEnemies = 1;
+	numberEnemies = 2;
 
 	this->screenDimension = new sf::Vector2u(screenWidth);
 }
@@ -40,13 +40,16 @@ int EnemyHandler::getNumberActiveEnemies() const
 	return enemies.size();
 }
 
-void EnemyHandler::spawnEnemy()
+void EnemyHandler::spawnEnemy(int level)
 {
 	int randomEnemyNumber = rand() % numberEnemies;
 
 	switch (randomEnemyNumber) {
 	case 0:
 		spawnSimpleEnemy();
+		break;
+	case 1:
+		spawnMediumEnemy();
 		break;
 	default:
 		printf("No such enemy: %d", randomEnemyNumber);
@@ -107,6 +110,13 @@ int EnemyHandler::killEnemy(int index)
 void EnemyHandler::spawnSimpleEnemy()
 {
 	SimpleEnemy* enemy = new SimpleEnemy(*screenDimension);
+
+	enemies.push_back(enemy);
+}
+
+void EnemyHandler::spawnMediumEnemy()
+{
+	MediumEnemy* enemy = new MediumEnemy(*screenDimension);
 
 	enemies.push_back(enemy);
 }
