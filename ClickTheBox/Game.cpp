@@ -15,7 +15,6 @@ Game::Game()
 
 	sfEvent = new sf::Event();
 
-
 	isGameInitialized = false;
 	isGameStart = false;
 

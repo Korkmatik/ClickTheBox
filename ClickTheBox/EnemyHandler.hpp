@@ -4,6 +4,7 @@
 
 #include "SimpleEnemy.hpp"
 #include "MediumEnemy.hpp"
+#include "HardEnemy.h"
 
 class EnemyHandler
 {
@@ -48,5 +49,6 @@ private:
 
 	void spawnSimpleEnemy(); 
 	void spawnMediumEnemy();
+	void spawnHardEnemy();
 };
 

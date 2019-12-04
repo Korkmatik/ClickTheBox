@@ -20,7 +20,7 @@ public:
 	void createEnemies(int number)
 	{
 		for (int i = 0; i < number; i++) {
-			enemyHandler->spawnEnemy();
+			enemyHandler->spawnEnemy(500);
 		}
 	}
 };

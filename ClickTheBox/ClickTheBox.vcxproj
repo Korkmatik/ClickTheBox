@@ -134,6 +134,7 @@
     <ClCompile Include="EnemyHandler.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOverUI.cpp" />
+    <ClCompile Include="HardEnemy.cpp" />
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MediumEnemy.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="EnemyHandler.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameOverUI.hpp" />
+    <ClInclude Include="HardEnemy.h" />
     <ClInclude Include="Hud.hpp" />
     <ClInclude Include="MediumEnemy.hpp" />
     <ClInclude Include="Player.hpp" />
