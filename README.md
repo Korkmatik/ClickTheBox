@@ -11,3 +11,9 @@ Red Enemy: Gives 20 Points<br/>
 
 # Screenshots
 <img src="Screenshots/Screen.png" width="50%"/>
+
+# What I've learned
+* Improved C++ Skills
+* Improved SFML Skills
+* Being more creative
+* Improved writing Unit Tests
